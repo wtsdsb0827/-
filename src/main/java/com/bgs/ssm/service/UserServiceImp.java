@@ -1,8 +1,10 @@
 package com.bgs.ssm.service;
 
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.bgs.ssm.mapper.UserMapper;
 import com.bgs.ssm.pojo.Relation;
 import com.bgs.ssm.pojo.User;
+import com.bgs.ssm.util.AliYunMessageUtil;
 import com.bgs.ssm.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,8 +60,27 @@ public class UserServiceImp implements UserService {
            }
            relation.setChildList(relations);
         }
-        System.out.println(Plist);
+        /*System.out.println(Plist);*/
         return Plist;
+    }
+
+    @Override
+    public String getCode(Map<String,Object> map) throws Exception {
+        String userPhone= (String) map.get("userPhone");
+        User user = u.getCode(userPhone);
+        String coder = "";
+        if(userPhone.equals(user.getUserPhone())){
+            coder = getCoder();
+            AliYunMessageUtil.sendSms(userPhone, coder);
+        }
+        return coder;
+    }
+
+
+    public String getCoder() {
+        int newcode = (int)(Math.random()*9999)+100;
+        String s =Integer.toString(newcode);
+        return s;
     }
 
 }

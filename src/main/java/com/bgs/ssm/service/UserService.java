@@ -17,4 +17,5 @@ public interface UserService {
     List<Relation> LoginTree(Map<String,Object> map);
 
 
+    String getCode(Map<String,Object> map)throws Exception;
 }

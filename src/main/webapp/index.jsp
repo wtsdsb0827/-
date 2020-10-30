@@ -10,7 +10,7 @@
 <body>
 
     <div id="vue" style="margin:-8px;">
-            <div>
+            <div >
                 <el-menu :default-active="activeIndex"  mode="horizontal" active-text-color="#ffd04b">
                     <el-menu-item><el-image :src="photo" style="margin-left: 250px;"></el-image></el-menu-item>
                     <el-menu-item index="1" style="margin-left: 200px;" >首页</el-menu-item>
@@ -31,7 +31,7 @@
 
         <%--轮播图--%>
         <template >
-            <el-carousel :interval="3000" height="500px"   arrow="always">
+            <el-carousel :interval="3000" height="700px"   arrow="always">
                 <el-carousel-item v-for="oo in pic" >
                     <el-image :src="oo" style="height: 100%"> </el-image>
                 </el-carousel-item>

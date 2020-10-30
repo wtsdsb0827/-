@@ -9,7 +9,7 @@
     </select>
 
 
-    <select id="LoginTree" resultMap="orderResultMap">
+    <select id="LoginTree" resultType="relation">
         select p.permission_id permissionId,p.permission_name permissionName,
         p.permisson_url permissonUrl,permission_pid permissionPid
         from relation re inner join role ro inner join permission p
@@ -17,11 +17,10 @@
         and re.permission_id=p.permission_id
         where re.role_id=#{id}
     </select>
-    
-    <resultMap id="orderResultMap" type="Relation">
-        <result property="label" column="permissionName"/>
-    </resultMap>
 
 
+    <select id="getCode" resultType="user">
+        select * from user where user_phone=#{userPhone}
+    </select>
 
 </mapper>

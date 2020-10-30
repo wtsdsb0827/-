@@ -27,6 +27,8 @@
 
     <dependencies>
 
+
+        <!--阿里云短信验证-->
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-core</artifactId>

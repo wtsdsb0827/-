@@ -52,7 +52,7 @@ public class AliYunMessageUtil {
         return sendSmsResponse;
     }
 
-    //以下为测试代码，随机生成验证码
+  /*  //以下为测试代码，随机生成验证码
     private static int newcode;
     public static int getNewcode() {
         return newcode;
@@ -63,8 +63,8 @@ public class AliYunMessageUtil {
     public static void main(String[] args) throws Exception {
         setNewcode();
         String code = Integer.toString(getNewcode());
-        SendSmsResponse sendSms =sendSms("18301398746",code);//填写你需要测试的手机号码
-    }
+        sendSms("18301398746",code);//填写你需要测试的手机号码
+    }*/
 
 
 

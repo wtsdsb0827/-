@@ -14,4 +14,5 @@ public interface UserMapper {
     List<Relation> LoginTree(@Param("id") Integer id);
 
 
+    User getCode(@Param("userPhone") String userPhone);
 }

@@ -21,6 +21,7 @@ public class UserController {
     private UserService u;
 
 
+    /* 用户登录 */
     @RequestMapping("/LoginUser")
     @ResponseBody
     public User LoginPro(@RequestBody Map<String,Object> map, HttpSession session){
@@ -30,11 +31,21 @@ public class UserController {
 
 
 
+    /* 菜单查询 */
     @RequestMapping("/LoginTree")
     @ResponseBody
     public List<Relation> LoginTree(@RequestBody Map<String,Object> map){
         List<Relation> list = u.LoginTree(map);
         return list;
+    }
+
+    /* 获取验证码 */
+
+    @RequestMapping("/getCode")
+    @ResponseBody
+    public String getCode(@RequestBody Map<String,Object> map) throws Exception{
+        String code = u.getCode(map);
+        return code;
     }
 
 

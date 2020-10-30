@@ -17,8 +17,6 @@
                      :props="defaultProps"
                      :data="treeArray"
                      ref="tree"
-                     <%--default-expand-all
-                     :filter-node-method="filterNode"--%>
             ></el-tree>
         </div>
 
@@ -61,10 +59,7 @@
             },
 
             methods:{
-               /* filterNode(value, data) {
-                    if (!value) return true;
-                    return data.label.indexOf(value) !== -1;
-                }*/
+
 
             },
 
