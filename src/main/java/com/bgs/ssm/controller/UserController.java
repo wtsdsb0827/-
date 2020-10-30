@@ -49,6 +49,14 @@ public class UserController {
     }
 
 
+    /*  校验手机号完成调用方法进行登录  */
+    @RequestMapping("/PhoneLogin")
+    @ResponseBody
+    public User PhoneLogin(@RequestBody Map<String,Object> map,HttpSession session){
+        User user = u.PhoneLogin(map,session);
+        return user;
+    }
+
 
 
 

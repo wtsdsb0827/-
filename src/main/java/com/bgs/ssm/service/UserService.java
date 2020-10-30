@@ -18,4 +18,6 @@ public interface UserService {
 
 
     String getCode(Map<String,Object> map)throws Exception;
+
+    User PhoneLogin(Map<String,Object> map,HttpSession session);
 }

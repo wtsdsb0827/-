@@ -15,4 +15,7 @@ public interface UserMapper {
 
 
     User getCode(@Param("userPhone") String userPhone);
+
+
+    User PhoneLogin(@Param("userPhone") String userPhone);
 }

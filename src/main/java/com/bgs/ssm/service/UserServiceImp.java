@@ -67,7 +67,9 @@ public class UserServiceImp implements UserService {
     @Override
     public String getCode(Map<String,Object> map) throws Exception {
         String userPhone= (String) map.get("userPhone");
+        System.out.println("传过来的电话："+userPhone);
         User user = u.getCode(userPhone);
+        System.out.println("User中的电话："+user.getUserPhone());
         String coder = "";
         if(userPhone.equals(user.getUserPhone())){
             coder = getCoder();
@@ -75,12 +77,20 @@ public class UserServiceImp implements UserService {
         }
         return coder;
     }
-
-
     public String getCoder() {
         int newcode = (int)(Math.random()*9999)+100;
         String s =Integer.toString(newcode);
+        System.out.println(s);
         return s;
+    }
+
+
+    @Override
+    public User PhoneLogin(Map<String, Object> map,HttpSession session) {
+        String userPhone = (String) map.get("userPhone");
+       User user = u.PhoneLogin(userPhone);
+        session.setAttribute("user",user);
+        return user;
     }
 
 }

@@ -33,7 +33,7 @@
                             <el-input style="width: 200px;" type="text" placeholder="请输入手机号" v-model="ruleForm.userPhone" autocomplete="off"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="短信验证码"  prop="userPassword">
+                        <el-form-item label="短信验证码"  prop="userCode">
                             <el-input style="width: 200px;" type="text" placeholder="请输入短信验证码" v-model="ruleForm.userCode" autocomplete="off"></el-input>
                             <el-button type="primary" style="width: 100px;" v-on:click="getCode">获取验证码</el-button>
                         </el-form-item>
@@ -69,16 +69,19 @@
         methods:{
             SubLogin:function () {
                 var vv = this;
-                axios.post('${pageContext.request.contextPath}/pro/LoginUser',{
-                    userPhone:vv.ruleForm.userPhone,
-                    userPassword:vv.ruleForm.userPassword
-                })
-                    .then(function (res) {
+                    if(vv.code==vv.ruleForm.userCode){
+                        alert("验证码校验无误")
+
+                        axios.post('${pageContext.request.contextPath}/pro/PhoneLogin',{
+                            userPhone:vv.ruleForm.userPhone,
+                        })
+                            .then(function (res) {console.log(res.data)})
+                            .catch(function (error) {console.log(error)})
+
                         location.href="${pageContext.request.contextPath}/jsps/common/AllLogin.jsp"
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    })
+                    }
+                    else
+                        alert("验证码有误，拒绝登录")
             },
 
             //获取验证码操作
