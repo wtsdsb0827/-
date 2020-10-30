@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bgs.ssm.mapper.UserMapper">
+
+    <select id="LoginPro" resultType="user">
+        select * from user where user_phone=#{userPhone} and user_password=#{userPassword}
+    </select>
+
+
+    <select id="LoginTree" resultMap="orderResultMap">
+        select p.permission_id permissionId,p.permission_name permissionName,
+        p.permisson_url permissonUrl,permission_pid permissionPid
+        from relation re inner join role ro inner join permission p
+        on re.role_id=ro.role_id
+        and re.permission_id=p.permission_id
+        where re.role_id=#{id}
+    </select>
+    
+    <resultMap id="orderResultMap" type="Relation">
+        <result property="label" column="permissionName"/>
+    </resultMap>
+
+
+
+</mapper>
