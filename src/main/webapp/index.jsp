@@ -22,9 +22,16 @@
                         <el-menu-item index="2-1">
                             <el-link href="${pageContext.request.contextPath}/jsps/login/manufactureLogin.jsp" target="_blank">厂商登录</el-link>
                         </el-menu-item>
-                        <el-menu-item index="2-1">厂商注册</el-menu-item>
-                        <el-menu-item index="2-1">服务商登录</el-menu-item>
-                        <el-menu-item index="2-1">部门登录</el-menu-item>
+                        <el-menu-item index="2-1">
+                            <el-link href="${pageContext.request.contextPath}/jsps/login/manufactureRegister.jsp" target="_blank">厂商注册</el-link>
+                        </el-menu-item>
+                        <el-menu-item index="2-1">
+                            <el-link href="${pageContext.request.contextPath}/jsps/login/serviceproviderLogin.jsp" target="_blank">服务商登录</el-link>
+                        </el-menu-item>
+                        <el-menu-item index="2-1">
+                            <el-link href="${pageContext.request.contextPath}/jsps/login/departmentLogin.jsp" target="_blank">部门登录</el-link>
+                        </el-menu-item>
+
                     </el-submenu>
                 </el-menu>
             </div>

@@ -78,7 +78,7 @@
                             .then(function (res) {console.log(res.data)})
                             .catch(function (error) {console.log(error)})
 
-                        location.href="${pageContext.request.contextPath}/jsps/common/AllLogin.jsp"
+                        location.href="${pageContext.request.contextPath}/jsps/login/AllLogin.jsp"
                     }
                     else
                         alert("验证码有误，拒绝登录")
