@@ -11,7 +11,7 @@
 <body>
 
     <div id = "app">
-       <div style="margin-top: 100px;margin-left: 100px;width: 100%">
+       <div style="margin-top: 50px;margin-left: 50px;width: 100%">
            <div>
                <el-row>
                    模板：<el-button>下载</el-button>
@@ -30,12 +30,11 @@
                   </el-tabs>
               </template>
           </div>
-           <div style="height: 50px;width: 500px;">
-               <el-row>
+           <div style="height: 200px;width: 100%;">
+               <el-row >
                    综合查询：<el-input style="width: 200px;margin-right: 50px;" v-model="brandName" placeholder="名称"></el-input>
-                    状态：
                    <template>
-                       <el-select v-model="value" placeholder="请选择">
+                       状态： <el-select  v-model="value" placeholder="请选择">
                            <el-option
                                    v-for="item in options"
                                    :key="item.value"
@@ -46,7 +45,7 @@
                    </template>
                </el-row>
 
-              <div style="margin-top: 30px;margin-left: 160px;">
+              <div style="margin-top: 30px;margin-left: 300px;">
                   <el-button>查询</el-button>
                   <el-button>导出</el-button>
               </div>

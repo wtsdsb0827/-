@@ -1,6 +1,8 @@
 package com.bgs.ssm.controller;
 
+import com.bgs.ssm.pojo.Department;
 import com.bgs.ssm.pojo.Relation;
+import com.bgs.ssm.pojo.RelationCompDept;
 import com.bgs.ssm.pojo.User;
 import com.bgs.ssm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +59,15 @@ public class UserController {
         return user;
     }
 
+
+
+    /*  部门管理中的树节点展示 */
+    @RequestMapping("/DepartmentNode")
+    @ResponseBody
+    public List<RelationCompDept> DepartmentNode(@RequestBody Map<String,Object> map){
+        List<RelationCompDept> list = u.DepartmentNode(map);
+        return list;
+    }
 
 
 

@@ -1,7 +1,9 @@
 package com.bgs.ssm.service;
 
 
+import com.bgs.ssm.pojo.Department;
 import com.bgs.ssm.pojo.Relation;
+import com.bgs.ssm.pojo.RelationCompDept;
 import com.bgs.ssm.pojo.User;
 import org.springframework.stereotype.Repository;
 
@@ -20,4 +22,9 @@ public interface UserService {
     String getCode(Map<String,Object> map)throws Exception;
 
     User PhoneLogin(Map<String,Object> map,HttpSession session);
+
+    List<RelationCompDept> DepartmentNode(Map<String,Object> map);
+
+
+
 }

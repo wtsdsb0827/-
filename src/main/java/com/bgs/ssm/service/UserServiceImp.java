@@ -1,8 +1,9 @@
 package com.bgs.ssm.service;
 
-import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.bgs.ssm.mapper.UserMapper;
+import com.bgs.ssm.pojo.Department;
 import com.bgs.ssm.pojo.Relation;
+import com.bgs.ssm.pojo.RelationCompDept;
 import com.bgs.ssm.pojo.User;
 import com.bgs.ssm.util.AliYunMessageUtil;
 import com.bgs.ssm.util.MD5Utils;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -91,6 +93,42 @@ public class UserServiceImp implements UserService {
        User user = u.PhoneLogin(userPhone);
         session.setAttribute("user",user);
         return user;
+    }
+
+
+
+    @Override
+    public List<RelationCompDept> DepartmentNode(Map<String, Object> map) {
+        Integer id = (Integer) map.get("roleId");
+        List<RelationCompDept> list = u.DepartmentNode(id);
+        System.out.println("DB中的数据"+list);
+        List<RelationCompDept> pList = new ArrayList<>();
+
+        for(RelationCompDept relationCompDept:list) {
+            if (relationCompDept.getDepartmentPid() == 0) {
+                pList.add(relationCompDept);
+            }
+        }
+        System.out.println("父节点："+pList);
+
+        for(RelationCompDept r1:pList){
+            List<RelationCompDept> list1 = new ArrayList<>();  //第二个节点
+            for(RelationCompDept r2:list){
+                if(r1.getDepartmentId()==r2.getDepartmentPid()){
+                    list1.add(r2);
+                    List<RelationCompDept> list2 = new ArrayList<>();  //第三个节点
+                    for (RelationCompDept r3:list){
+                        if(r2.getDepartmentId()==r3.getDepartmentPid()){
+                            list2.add(r3);
+                        }
+                    }
+                    r2.setChildList(list2);
+                }
+            }
+            r1.setChildList(list1);
+        }
+        System.out.println("新的集合："+pList);
+        return pList;
     }
 
 }

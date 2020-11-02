@@ -9,7 +9,6 @@ import java.util.List;
 public class Relation {
 
     private Integer  relationId;
-    private Integer  id;
     private Integer  permissionId;  //菜单表ID
     private String  relationState;  //关系表权限
     private Integer  roleId;    //角色ID
@@ -86,19 +85,12 @@ public class Relation {
     }
 
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     @Override
     public String toString() {
         return "Relation{" +
                 "relationId=" + relationId +
-                ", id=" + id +
                 ", permissionId=" + permissionId +
                 ", relationState='" + relationState + '\'' +
                 ", roleId=" + roleId +

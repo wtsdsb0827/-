@@ -8,7 +8,7 @@ public class GetAllFiledNameUtil {
 
 	public static void main(String[] args) {
 		// 在这里输入四个参数，第一个是数据库的名字，第二个是表的名字，第三个是数据库用户名（默认root）,第四个是数据库密码
-		getAllList("222", "relation", "root", "wts");
+		getAllList("222", "relationCompDept", "root", "wts");
 	}
 
 	public static void getAllList(String MySQLName, String tablerName, String userName, String password) {// 全查一张表

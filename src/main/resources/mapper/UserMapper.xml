@@ -28,4 +28,14 @@
         select * from user where user_phone=#{userPhone}
     </select>
 
+
+    <select id="DepartmentNode" resultType="RelationCompDept">
+        SELECT * FROM relationcompdept r
+        INNER JOIN department d
+        INNER JOIN company c ON
+        r.re_deptId=d.department_id AND
+        c.depart_id=d.department_id
+        WHERE r.re_roleId=#{id}
+    </select>
+
 </mapper>
