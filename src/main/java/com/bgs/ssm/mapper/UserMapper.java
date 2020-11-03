@@ -1,9 +1,6 @@
 package com.bgs.ssm.mapper;
 
-import com.bgs.ssm.pojo.Department;
-import com.bgs.ssm.pojo.Relation;
-import com.bgs.ssm.pojo.RelationCompDept;
-import com.bgs.ssm.pojo.User;
+import com.bgs.ssm.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -25,5 +22,16 @@ public interface UserMapper {
 
     List<RelationCompDept> DepartmentNode(@Param("id") Integer id);
 
+
+    Company selectCompany(@Param("departmentId") Integer departmentId);
+
+
+    List<Brand> queryInfo(@Param("roleId") Integer roleId);
+
+
+    List<Brand> queryLikeInfo(@Param("brandState") String brandState, @Param("brandName") String brandName);
+
+
+    boolean PutBrand(@Param("brandMingCheng") String brandMingCheng,@Param("roleId") Integer roleId);
 
 }

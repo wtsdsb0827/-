@@ -29,13 +29,76 @@
     </select>
 
 
-    <select id="DepartmentNode" resultType="RelationCompDept">
+    <select id="queryInfo" resultType="Brand">
+      select * from brand where role_id = #{roleId}
+    </select>
+
+    <select id="queryLikeInfo" resultType="Brand">
+        select * from brand
+        <where>
+            <if test="brandState!=null and brandState!=''">
+                brand_state like '%${brandState}%'
+            </if>
+            <if test="brandName!=null and brandName!=''">
+               and brand_name like '%${brandName}%'
+            </if>
+        </where>
+    </select>
+
+
+
+
+    <select id="DepartmentNode" resultMap="aaa">
         SELECT * FROM relationcompdept r
-        INNER JOIN department d
-        INNER JOIN company c ON
-        r.re_deptId=d.department_id AND
-        c.depart_id=d.department_id
+        INNER JOIN department d ON
+        r.re_deptId=d.department_id
         WHERE r.re_roleId=#{id}
     </select>
+
+
+    <resultMap id="aaa" type="RelationCompDept">
+        <id column="re_id" property="reId"/>
+        <id column="department_id" property="departmentId"/>
+        <id column="depart_id" property="departId"/>
+        <result column="department_name" property="departmentName"/>
+
+        <collection property="childList" column="department_id" select="com.bgs.ssm.mapper.UserMapper.selectCompany">
+            <id column="departmentId" property="departmentId"/>
+        </collection>
+    </resultMap>
+    
+    <insert id="PutBrand">
+        insert into brand (brand_id,brand_name,role_id) values (0,#{brandMingCheng},#{roleId});
+    </insert>
+
+
+    <select id="selectCompany" resultType="RelationCompDept" resultMap="rel">
+            SELECT * FROM relationcompdept r
+            INNER JOIN department d
+            INNER JOIN company c ON
+            r.re_deptId=d.department_id AND
+            c.depart_id=d.department_id
+            WHERE c.depart_id=#{departmentId}
+    </select>
+    <resultMap id="rel" type="RelationCompDept">
+        <id column="company_id" property="departmentId"></id>
+        <result column="company_name" property="departmentName"></result>
+        <result column="depart_id" property="departmentPid"></result>
+    </resultMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </mapper>

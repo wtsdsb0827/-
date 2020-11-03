@@ -17,7 +17,6 @@
                    模板：<el-button>下载</el-button>
                    上传：<el-button type="primary">选择文件</el-button>
                    <el-button type="primary">确定导入</el-button>
-                   <el-button type="primary" style="margin-left: 400px;">新增</el-button>
                </el-row>
            </div>
 
@@ -34,34 +33,45 @@
                <el-row >
                    综合查询：<el-input style="width: 200px;margin-right: 50px;" v-model="brandName" placeholder="名称"></el-input>
                    <template>
-                       状态： <el-select  v-model="value" placeholder="请选择">
+                       状态： <el-select  v-model="brandState" placeholder="全部">
                            <el-option
-                                   v-for="item in options"
-                                   :key="item.value"
-                                   :label="item.label"
-                                   :value="item.value">
+                                   v-for="item in stateFor"
+                                   :label="item.brandState"
+                                   :value="item.brandId">
                            </el-option>
                        </el-select>
                    </template>
                </el-row>
 
-              <div style="margin-top: 30px;margin-left: 300px;">
-                  <el-button>查询</el-button>
+              <div style="margin-top: 30px;margin-left: 200px;">
+                  <el-button @click="queryLikeInfo">查询</el-button>
                   <el-button>导出</el-button>
+                  <el-button @click="dialogVisible = true" >新增</el-button>
+
+                  <el-dialog
+                          title="品牌新增"
+                          :visible.sync="dialogVisible"
+                          width="30%"
+                          :before-close="handleClose">
+                      品牌名称：<el-input style="width: 250px;" v-model="brandMingCheng"></el-input>
+                      <span slot="footer" class="dialog-footer">
+                          <el-button type="primary" @click="brandCommit">确 定</el-button>
+                          <el-button @click="dialogVisible = false">取 消</el-button>
+                      </span>
+                  </el-dialog>
               </div>
            </div>
 
            <div>
                <template>
                    <el-table :data="tableData" style="width: 100%">
-                       <el-table-column prop="brandId" label="编号" width="180"></el-table-column>
-                       <el-table-column prop="brandName" label="品牌名称" width="180"></el-table-column>
-                       <el-table-column prop="address" label="状态"></el-table-column>
-                       <el-table-column prop="address" label="操作"></el-table-column>
-                       <el-table-column fixed="right" label="操作" width="100">
+                       <el-table-column prop="brandId" label="编号" width="150"></el-table-column>
+                       <el-table-column prop="brandName" label="品牌名称" width="150"></el-table-column>
+                       <el-table-column prop="brandState" label="状态" width="150"></el-table-column>
+                       <el-table-column fixed="right" label="操作">
                            <template slot-scope="scope">
-                               <el-button type="text" size="small">停用</el-button>
-                               <el-button type="text" size="small">启用</el-button>
+                               <el-button type="text" size="big">停用</el-button>
+                               <el-button type="text" size="big">启用</el-button>
                            </template>
                        </el-table-column>
                    </el-table>
@@ -75,16 +85,84 @@
 <script>
     new Vue({
         el:"#app",
+
+        mounted:function(){
+            var _this = this;
+            var id1 = ${user.roleId}
+                axios.post('${pageContext.request.contextPath}/pro/queryInfo',{
+                    roleId:id1,
+                })
+                    .then(function (res) {
+                        _this.tableData = res.data
+                        console.log(res)
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+        },
+
         data:{
             activeName: 'first',
             tableData:[],
-            value:'',
+            stateFor:[
+                {brandState:'使用中',brandId:'使用中'},
+                {brandState:'停用中',brandId:'停用中'},
+                        ],
+            brandState:'',
+            brandName:'',
+            brandMingCheng:'',
+            dialogVisible: false,
         },
         methods:{
             handleClick(tab, event) {
                 console.log(tab, event);
-            }
-        }
+            },
+            queryLikeInfo:function () {         //查询按钮
+                var _this = this;
+                    axios.post('${pageContext.request.contextPath}/pro/queryLikeInfo',{
+                        brandName:_this.brandName,
+                        brandState:_this.brandState,
+                    })
+                        .then(function (res) {
+                            _this.tableData = res.data
+                            console.log(res)
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
+            },
+            handleClose(done){
+                this.$confirm('确认关闭？')
+                    .then(function (res) {
+                        done();
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+
+            },
+            brandCommit:function () {
+                var _this = this;
+                var brandMingCheng = _this.brandMingCheng;
+                var roleId = ${user.roleId};
+                axios.post('${pageContext.request.contextPath}/pro/PutBrand',{
+                    roleId:roleId,
+                    brandMingCheng:brandMingCheng,
+                })
+                    .then(function (res) {
+                        alert("添加成功")
+                        console.log(res)
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+            },
+
+
+}
+
+
+
     })
 </script>
 </html>

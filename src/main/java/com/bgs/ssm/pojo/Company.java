@@ -1,6 +1,10 @@
 package com.bgs.ssm.pojo;
 
-public class Company {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
+@JsonIgnoreProperties(value = { "handler"})
+public class Company  implements Serializable {
 
 
     private Integer  companyId;

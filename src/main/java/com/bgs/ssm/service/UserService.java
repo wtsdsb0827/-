@@ -1,10 +1,7 @@
 package com.bgs.ssm.service;
 
 
-import com.bgs.ssm.pojo.Department;
-import com.bgs.ssm.pojo.Relation;
-import com.bgs.ssm.pojo.RelationCompDept;
-import com.bgs.ssm.pojo.User;
+import com.bgs.ssm.pojo.*;
 import org.springframework.stereotype.Repository;
 
 import javax.servlet.http.HttpSession;
@@ -18,13 +15,19 @@ public interface UserService {
 
     List<Relation> LoginTree(Map<String,Object> map);
 
-
     String getCode(Map<String,Object> map)throws Exception;
 
     User PhoneLogin(Map<String,Object> map,HttpSession session);
 
-    List<RelationCompDept> DepartmentNode(Map<String,Object> map);
+    List<Brand> queryInfo(Map<String,Object> map);
 
+    List<Brand> queryLikeInfo(Map<String,Object> map);
+
+    boolean PutBrand(Map<String,Object> map);
+
+
+
+    List<RelationCompDept> DepartmentNode(Map<String,Object> map);
 
 
 }

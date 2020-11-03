@@ -7,11 +7,11 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/static/element/index.css">
         <script src="${pageContext.request.contextPath}/static/element/index.js"></script>
         <script src="${pageContext.request.contextPath}/static/axios/axios.js"></script>
+        <script src="${pageContext.request.contextPath}/static/jquery/js/jquery-3.2.1.min.js"></script>
         <link rel="stylesheet" href="${pageContext.request.contextPath }/static/bootstrap/css/bootstrap-table.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath }/static/bootstrap/css/bootstrap.min.css">
         <script type="text/javascript" src="${pageContext.request.contextPath}/static/bootstrap/js/bootstrap.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/static/bootstrap/js/bootstrap-tab.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/static/bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
 <body>
     <div id="app">
 

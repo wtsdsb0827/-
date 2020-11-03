@@ -1,10 +1,7 @@
 package com.bgs.ssm.service;
 
 import com.bgs.ssm.mapper.UserMapper;
-import com.bgs.ssm.pojo.Department;
-import com.bgs.ssm.pojo.Relation;
-import com.bgs.ssm.pojo.RelationCompDept;
-import com.bgs.ssm.pojo.User;
+import com.bgs.ssm.pojo.*;
 import com.bgs.ssm.util.AliYunMessageUtil;
 import com.bgs.ssm.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,37 +95,55 @@ public class UserServiceImp implements UserService {
 
 
     @Override
+    public List<Brand> queryInfo(Map<String, Object> map) {
+        Integer roleId = (Integer) map.get("roleId");
+        List<Brand> list = u.queryInfo(roleId);
+        return list;
+    }
+
+
+    @Override
+    public List<Brand> queryLikeInfo(Map<String,Object> map){
+        String brandName = (String) map.get("brandName");
+        String brandState = (String) map.get("brandState");
+
+        List<Brand> list = u.queryLikeInfo(brandState,brandName);
+        return list;
+    }
+
+    @Override
+    public boolean PutBrand(Map<String, Object> map) {
+        String brandMingCheng = (String) map.get("brandMingCheng");
+        Integer roleId = (Integer) map.get("roleId");
+       boolean b = u.PutBrand(brandMingCheng,roleId);
+        return b;
+    }
+
+
+    @Override
     public List<RelationCompDept> DepartmentNode(Map<String, Object> map) {
         Integer id = (Integer) map.get("roleId");
         List<RelationCompDept> list = u.DepartmentNode(id);
         System.out.println("DB中的数据"+list);
+
         List<RelationCompDept> pList = new ArrayList<>();
+        List<RelationCompDept> qList = new ArrayList<>();
 
-        for(RelationCompDept relationCompDept:list) {
-            if (relationCompDept.getDepartmentPid() == 0) {
-                pList.add(relationCompDept);
-            }
-        }
-        System.out.println("父节点："+pList);
-
-        for(RelationCompDept r1:pList){
-            List<RelationCompDept> list1 = new ArrayList<>();  //第二个节点
+        for(RelationCompDept r1:list){
             for(RelationCompDept r2:list){
-                if(r1.getDepartmentId()==r2.getDepartmentPid()){
-                    list1.add(r2);
-                    List<RelationCompDept> list2 = new ArrayList<>();  //第三个节点
-                    for (RelationCompDept r3:list){
-                        if(r2.getDepartmentId()==r3.getDepartmentPid()){
-                            list2.add(r3);
-                        }
-                    }
-                    r2.setChildList(list2);
+                if(r2.getDepartmentPid()!=0){
+                    qList.add(r2);
                 }
             }
-            r1.setChildList(list1);
+            if(r1.getDepartmentPid()==0){
+                pList.add(r1);
+                r1.setChildList(qList);
+            }
         }
-        System.out.println("新的集合："+pList);
+       System.out.println("pList数据："+pList);
         return pList;
     }
+
+
 
 }

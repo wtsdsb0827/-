@@ -1,20 +1,23 @@
 package com.bgs.ssm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+@JsonIgnoreProperties(value = { "handler"})
+public class RelationCompDept implements Serializable {
 
-public class RelationCompDept {
-
-    private Integer  reId;
-    private Integer  departmentId;
+    private Integer  reId;          //关系表主键
+    private Integer  departmentId;  //部门主键
     private Integer  reDeptid;      //部门外键
     private Integer  reRoleid;      //角色外键
 
-    private String  companyName;   //公司名称
     private String  departmentName;     //部门名称
     private Integer  departmentPid;    //PID
 
     private List<RelationCompDept> childList = new ArrayList<>();
+
+
 
     public Integer getReId() {
         return reId;
@@ -40,13 +43,6 @@ public class RelationCompDept {
         this.reRoleid = reRoleid;
     }
 
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
 
     public String getDepartmentName() {
         return departmentName;
@@ -80,6 +76,7 @@ public class RelationCompDept {
         this.departmentId = departmentId;
     }
 
+
     @Override
     public String toString() {
         return "RelationCompDept{" +
@@ -88,7 +85,6 @@ public class RelationCompDept {
                 ", reDeptid=" + reDeptid +
                 ", reRoleid=" + reRoleid +
                 ", departmentName='" + departmentName + '\'' +
-                ", companyName='" + companyName + '\'' +
                 ", departmentPid=" + departmentPid +
                 ", childList=" + childList +
                 '}';
