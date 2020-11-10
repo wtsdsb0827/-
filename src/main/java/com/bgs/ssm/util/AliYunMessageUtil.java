@@ -15,8 +15,8 @@ public class AliYunMessageUtil {
     static final String product = "Dysmsapi";//短信API产品名称（短信产品名固定，无需修改）
     static final String domain = "dysmsapi.aliyuncs.com";//短信API产品域名（接口地址固定，无需修改）
 
-    static final String accessKeyId = "LTAI4GBK2Xw7yCkRo9NLRF52";//你的accessKeyId
-    static final String accessKeySecret = "P3X9nodgYMdSBs49N5Jz2EVF1e3Tx4";//你的accessKeySecret
+    static final String accessKeyId = "";//你的accessKeyId
+    static final String accessKeySecret = "";//你的accessKeySecret
 
 
     public static SendSmsResponse sendSms(String telephone, String code) throws ClientException {
