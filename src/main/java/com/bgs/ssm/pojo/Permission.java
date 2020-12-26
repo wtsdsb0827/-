@@ -2,14 +2,15 @@ package com.bgs.ssm.pojo;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /*
     菜单表
  */
 public class Permission {
-    private Integer  permissionId;  //菜单ID
-    private String  permissionName; //菜单名
-    private String  permissonUrl;   //跳转路径
-    private Integer  permissionPid; //父ID
+    private Integer permissionId;  //菜单ID
+    private String permissionName; //菜单名
+    private String permissonUrl;   //跳转路径
+    private Integer permissionPid; //父ID
 
     private List<Permission> childList = new ArrayList<>();
 
@@ -44,7 +45,6 @@ public class Permission {
     public void setPermissionPid(Integer permissionPid) {
         this.permissionPid = permissionPid;
     }
-
 
 
     public List<Permission> getChildList() {

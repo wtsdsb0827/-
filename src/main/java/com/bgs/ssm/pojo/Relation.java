@@ -8,15 +8,15 @@ import java.util.List;
  */
 public class Relation {
 
-    private Integer  relationId;
-    private Integer  permissionId;  //菜单表ID
-    private String  relationState;  //关系表权限
-    private Integer  roleId;    //角色ID
+    private Integer relationId;
+    private Integer permissionId;  //菜单表ID
+    private String relationState;  //关系表权限
+    private Integer roleId;    //角色ID
 
 
     private Integer permissionPid;
-    private String  permissionName; //菜单名
-    private String  permissonUrl;   //跳转路径
+    private String permissionName; //菜单名
+    private String permissonUrl;   //跳转路径
 
     private List<Relation> childList = new ArrayList<>();   //子节点
 
@@ -83,8 +83,6 @@ public class Relation {
     public void setPermissonUrl(String permissonUrl) {
         this.permissonUrl = permissonUrl;
     }
-
-
 
 
     @Override

@@ -233,7 +233,7 @@
 .table th, .table td {
     vertical-align: middle;
     box-sizing: border-box;
-    
+
 }
 
 .fixed-table-toolbar .dropdown-menu {
@@ -314,6 +314,6 @@ div.fixed-table-scroll-outer {
     top: 0;
     left: 0;
     z-index: 1050;
-    width: 100%!important;
+    width: 100% !important;
     background: #FFF;
 }

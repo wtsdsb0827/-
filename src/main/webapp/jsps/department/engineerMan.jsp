@@ -11,61 +11,68 @@
 <div id="app">
     <div style="margin-top:50px;margin-left: 50px; ">
         <template>
-            综合查询：<el-input style="width: 200px;" v-model="proName"></el-input>
+            综合查询：
+            <el-input style="width: 200px;" v-model="proName"></el-input>
             <template>
-                签约上游：<el-select v-model="value1" placeholder="全部">
-                <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
+                签约上游：
+                <el-select v-model="value1" placeholder="全部">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
             </template>
 
             <template>
-                省：<el-select v-model="value2" placeholder="全部">
-                <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
-                市：<el-select v-model="value3" placeholder="全部">
-                <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
-                区：<el-select v-model="value4" placeholder="全部">
-                <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select><br/><br/><br/>
+                省：
+                <el-select v-model="value2" placeholder="全部">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+                市：
+                <el-select v-model="value3" placeholder="全部">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+                区：
+                <el-select v-model="value4" placeholder="全部">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+                <br/><br/><br/>
             </template>
 
             <template>
-                状态：<el-select v-model="value5" placeholder="全部">
-                <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
+                状态：
+                <el-select v-model="value5" placeholder="全部">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
             </template>
 
             <div style="margin-top: 30px;margin-left: 350px;">
                 <el-button>查询</el-button>
             </div>
 
-            <div  style="margin-top: 30px;">
+            <div style="margin-top: 30px;">
                 <template>
                     <el-table
                             :data="tableData"
@@ -117,7 +124,7 @@
                                 width="120">
                         </el-table-column>
 
-                        <el-table-column fixed="right" label="操作" >
+                        <el-table-column fixed="right" label="操作">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small">解约</el-button>
                                 <el-button type="text" size="small">签约能力范围</el-button>
@@ -133,20 +140,18 @@
 
 <script>
     new Vue({
-        el:"#app",
-        data:{
-            proName:'',
-            tableData:[],
-            value1:'',
-            value2:'',
-            value3:'',
-            value4:'',
-            value5:'',
-            value6:'',
+        el: "#app",
+        data: {
+            proName: '',
+            tableData: [],
+            value1: '',
+            value2: '',
+            value3: '',
+            value4: '',
+            value5: '',
+            value6: '',
         },
-        methods:{
-
-        }
+        methods: {}
     })
 </script>
 </html>

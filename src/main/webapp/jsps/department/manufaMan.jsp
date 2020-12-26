@@ -6,144 +6,144 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/element/index.css">
     <script src="${pageContext.request.contextPath}/static/element/index.js"></script>
     <script src="${pageContext.request.contextPath}/static/axios/axios.js"></script>
+    <script src="${pageContext.request.contextPath}/static/jquery/js/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 <div id="app">
     <div style="margin-top:50px;margin-left: 50px; ">
         <template>
-            综合查询：<el-input style="width: 200px;" v-model="proName"></el-input>
+            综合查询：
+            <el-input style="width: 200px;" v-model="MaLikeName"></el-input>
             <template>
-                厂商类型：<el-select v-model="value1" placeholder="全部">
-                <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
+                厂商类型：
+                <el-select v-model="ManLikeType" placeholder="全部">
+                    <el-option
+                            v-for="item in TypeArray"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
             </template>
 
             <template>
-                省：<el-select v-model="value2" placeholder="全部">
-                <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
-                市：<el-select v-model="value3" placeholder="全部">
-                <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
-                区：<el-select v-model="value4" placeholder="全部">
-                <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select><br/><br/><br/>
+                省市区：
+                <el-select @change="queryProvince" v-model="ManLikeProvince" placeholder="全部">
+                    <el-option
+                            v-for="item in ProvinceArray"
+                            :label="item.provincePro"
+                            :value="item.provincePro">
+                    </el-option>
+                </el-select>
+                <el-select @change="queryCity" v-model="ManLikeCity" placeholder="全部">
+                    <el-option v-for="item in CityArray"
+                               :label="item.provinceCity"
+                               :value="item.provinceCity">
+                    </el-option>
+                </el-select>
+                <el-select v-model="ManLikeArea" placeholder="全部">
+                    <el-option v-for="item in AreaArray"
+                               :label="item.provinceArea"
+                               :value="item.provinceArea">
+                    </el-option>
+                </el-select>
+
+                <br/><br/><br/>
             </template>
 
             <template>
-                状态：<el-select v-model="value5" placeholder="全部">
-                <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
+                状态：
+                <el-select v-model="ManLikeState" placeholder="全部">
+                    <el-option
+                            v-for="item in StateArry"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
             </template>
 
             <template>
-                签约部门：<el-select v-model="value6" placeholder="全部">
-                <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
+                签约部门：
+                <el-select v-model="ManLikeDept" placeholder="全部">
+                    <el-option
+                            v-for="item in deptArray"
+                            :label="item.departmentName"
+                            :value="item.departmentId">
+                    </el-option>
+                </el-select>
             </template>
 
             <div style="margin-top: 30px;margin-left: 350px;">
                 <el-button>查询</el-button>
                 <el-button>新增厂商</el-button>
-                <el-button>修改厂商</el-button>
-                <el-button>新增签约</el-button>
             </div>
 
-            <div  style="margin-top: 30px;">
+            <div style="margin-top: 30px;">
                 <template>
                     <el-table
                             :data="tableData"
                             border
                             style="width: 100%">
                         <el-table-column
-                                prop="date"
+                                prop="manufacturerCode"
                                 label="厂商编码"
                                 width="120">
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="manufacturerType"
                                 label="厂商类型"
                                 width="120">
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="manufacturerName"
                                 label="厂商公司名称"
                                 width="120">
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="departmentName"
                                 label="签约部门"
                                 width="120">
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="manufacturerPhone"
                                 label="厂商电话"
                                 width="120">
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="manfactureDeposit"
                                 label="账户余额"
                                 width="120">
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="provincePro"
                                 label="省"
                                 width="120">
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="provinceCity"
                                 label="市"
                                 width="120">
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="provinceArea"
                                 label="区"
                                 width="120">
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="manufactureAddress"
                                 label="详细地址"
                                 width="120">
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="manufactureState"
                                 label="状态"
                                 width="120">
                         </el-table-column>
 
-                        <el-table-column fixed="right" label="操作" >
+                        <el-table-column fixed="right" label="操作">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small">解约</el-button>
+                                <el-button type="text" size="big">解约</el-button>
+                                <el-button type="text" size="big">编辑</el-button>
+                                <el-button type="text" size="big">签约</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -156,13 +156,86 @@
 
 <script>
     new Vue({
-        el:"#app",
-        data:{
-            proName:'',
-            tableData:[],
-            value1:'',
+        el: "#app",
+        data: {
+            MaLikeName:'',
+            ManLikeType:'',
+            cityLike:'',
+            ManLikeState:'',
+            ManLikeDept:'',
+            tableData: [],
+            deptArray:[],
+            ManLikeProvince:'',
+            ManLikeCity:'',
+            ManLikeArea:'',
+            ProvinceArray:[],
+            CityArray:[],
+            AreaArray:[],
+            TypeArray:[{label:'预付类型',value:'预付类型'},{label:'固定结算型',value:'固定结算型'}],
+            StateArry:[{label:'使用中',value:'使用中'},{label:'停用中',value:'停用中'}],
+            defaultProps: {
+                value: 'provinceId',
+                label: 'procityarea',
+                children: 'childList',
+            },
         },
-        methods:{
+        mounted:function(){
+          var t = this;
+
+
+          axios.post('${pageContext.request.contextPath}/pro/selectManAll')     //厂商全查
+              .then(function (res) {
+                  console.log(res.data)
+                  t.tableData = res.data
+              })
+              .catch(function (error) {
+                  console.log(error)
+              })
+
+
+            axios.post('${pageContext.request.contextPath}/pro/selectProvince')       //查询省市区下拉
+                .then(function (res) {
+                    t.ProvinceArray = res.data
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+
+            axios.post('${pageContext.request.contextPath}/pro/selectDepartment')       //查询签约部门下拉
+                .then(function (res) {
+                    t.deptArray = res.data
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+
+        },
+        methods: {
+
+            queryProvince:function () {     //根据第一级查询第二级
+                var t = this;
+                axios.post('${pageContext.request.contextPath}/pro/selectCity',{
+                    provincePro:t.ManLikeProvince
+                })
+                    .then(function (res) {
+                        t.CityArray = res.data
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+            },
+            queryCity:function () {      //根据第二级查询第三级
+                var t = this;
+                axios.post('${pageContext.request.contextPath}/pro/selectArea',{
+                    provinceCity:t.ManLikeCity
+                })
+                    .then(function (res) {
+                        t.AreaArray = res.data
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+            }
 
         }
     })

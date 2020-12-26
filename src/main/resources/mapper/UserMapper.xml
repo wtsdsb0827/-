@@ -4,11 +4,17 @@
 
 <mapper namespace="com.bgs.ssm.mapper.UserMapper">
 
+
+    <!--用户登录-->
     <select id="LoginPro" resultType="user">
-        select * from user where user_phone=#{userPhone} and user_password=#{userPassword}
+        SELECT * FROM user INNER JOIN role INNER JOIN urelation
+        ON user.user_id = urelation.uid AND
+        role.role_id = urelation.rid
+        where user.user_phone=#{userPhone} and user.user_password=#{userPassword}
     </select>
 
 
+    <!--用户登录菜单展示功能-->
     <select id="LoginTree" resultType="relation">
         select p.permission_id permissionId,p.permission_name permissionName,
         p.permisson_url permissonUrl,permission_pid permissionPid
@@ -19,7 +25,8 @@
     </select>
 
 
-    <select id="getCode" resultType="user">
+    <!--短信验证判断手机号是否有误-->
+    <select id="getCoders" resultType="user">
         select * from user where user_phone=#{userPhone}
     </select>
 
@@ -29,10 +36,19 @@
     </select>
 
 
+    <!--修改密码-->
+    <update id="SetPass">
+        update user set user_password = #{userPassword} where user_phone = #{userPhone};
+    </update>
+
+
+    <!--数据维护全查功能-->
     <select id="queryInfo" resultType="Brand">
-      select * from brand where role_id = #{roleId}
+        select * from brand
     </select>
 
+
+    <!--数据维护模糊查询功能-->
     <select id="queryLikeInfo" resultType="Brand">
         select * from brand
         <where>
@@ -40,21 +56,19 @@
                 brand_state like '%${brandState}%'
             </if>
             <if test="brandName!=null and brandName!=''">
-               and brand_name like '%${brandName}%'
+                and brand_name like '%${brandName}%'
             </if>
         </where>
     </select>
 
 
-
-
+    <!--部门管理树节点展示-->
     <select id="DepartmentNode" resultMap="aaa">
         SELECT * FROM relationcompdept r
         INNER JOIN department d ON
         r.re_deptId=d.department_id
         WHERE r.re_roleId=#{id}
     </select>
-
 
     <resultMap id="aaa" type="RelationCompDept">
         <id column="re_id" property="reId"/>
@@ -66,19 +80,14 @@
             <id column="departmentId" property="departmentId"/>
         </collection>
     </resultMap>
-    
-    <insert id="PutBrand">
-        insert into brand (brand_id,brand_name,role_id) values (0,#{brandMingCheng},#{roleId});
-    </insert>
-
 
     <select id="selectCompany" resultType="RelationCompDept" resultMap="rel">
-            SELECT * FROM relationcompdept r
-            INNER JOIN department d
-            INNER JOIN company c ON
-            r.re_deptId=d.department_id AND
-            c.depart_id=d.department_id
-            WHERE c.depart_id=#{departmentId}
+        SELECT * FROM relationcompdept r
+        INNER JOIN department d
+        INNER JOIN company c ON
+        r.re_deptId=d.department_id AND
+        c.depart_id=d.department_id
+        WHERE c.depart_id=#{departmentId}
     </select>
     <resultMap id="rel" type="RelationCompDept">
         <id column="company_id" property="departmentId"></id>
@@ -87,17 +96,519 @@
     </resultMap>
 
 
+    <!--数据维护添加能-->
+    <insert id="PutBrand">
+        insert into brand (brand_id,brand_name,brand_state) values (0,#{brandMingCheng},#{brandState});
+    </insert>
+
+    <!--数据维护状态修改功能-->
+    <update id="useState">
+        update brand set brand_state = #{brandState} where brand_id = #{brandId};
+    </update>
+
+    <!--数据维护状态修改功能-->
+    <update id="stopState">
+        update brand set brand_state = #{brandState} where brand_id = #{brandId};
+    </update>
+
+    <!--数据维护导入功能-->
+    <insert id="ImportBrand">
+        insert into brand (brand_id,brand_name,brand_state) values
+
+        <foreach collection="list1" item="i" separator=",">
+            (0,#{i.brandName},#{i.brandState})
+        </foreach>
+    </insert>
 
 
+    <!-- 品类区分配置品类下拉框数据回显-->
+    <select id="prodLike" resultType="ProdType">
+        select * from prodType;
+    </select>
 
 
+    <select id="prodAll" resultType="ProdType">
+        SELECT * FROM prodtype INNER JOIN config
+        ON prodtype.prodtype_id = config.prodtype_id
+    </select>
 
 
+    <select id="SelectLike" resultType="ProdType">
+        SELECT * FROM prodtype INNER JOIN config
+        ON prodtype.prodtype_id = config.prodtype_id
+        <where>
+            <if test="conReason!='' and conReason!=null">
+                con_reason like '%${conReason}%'
+            </if>
+            <if test="prodtypeName!='' and prodtypeName!=null">
+                and prodtype_name like '%${prodtypeName}%'
+            </if>
+            <if test="conState!='' and conState!=null">
+                and con_state like '%${conState}%'
+            </if>
+        </where>
+    </select>
 
 
+    <insert id="prodtypeAdd">
+        insert into config (con_id,con_reason,con_state,prodtype_id) values
+        (0,#{conReason},#{conState},#{prodtypeName});
+    </insert>
 
 
+    <update id="prodtypeUpdate">
+        update config set con_reason = #{conReason},con_state=#{conState},prodtype_id=#{prodtypeName}
+        where con_id = #{conId};
+    </update>
 
+    <select id="prodAllVis" resultType="ProdType">
+        SELECT * FROM prodtype INNER JOIN visitlist
+        ON prodtype.prodtype_id = visitlist.prodtype_id
+    </select>
+
+    <select id="SelectLikeVisit" resultType="ProdType">
+        SELECT * FROM prodtype INNER JOIN visitlist
+        ON prodtype.prodtype_id = visitlist.prodtype_id
+        <where>
+            <if test="visitName!='' and visitName!=null">
+                visit_name like '%${visitName}%'
+            </if>
+            <if test="prodtypeName!='' and prodtypeName!=null">
+                and prodtype_name like '%${prodtypeName}%'
+            </if>
+            <if test="visitState!='' and visitState!=null">
+                and visit_state like '%${visitState}%'
+            </if>
+        </where>
+    </select>
+
+    <insert id="ConcontAdd">
+        insert into visitlist (visit_id,visit_name,visit_state,prodtype_id) values
+        (0,#{visitName},#{visitState},#{prodtypeName});
+    </insert>
+
+
+    <update id="ConcontentUpdate">
+        update visitlist set visit_name = #{visitName},visit_state=#{visitState},prodtype_id=#{prodtypeName}
+        where visit_id = #{visitId};
+    </update>
+
+
+    <!--维修措施归类-->
+    <select id="selectRepair" resultType="ProdType">
+        SELECT DISTINCT repairmeasures.repair_doing FROM repairmeasures
+    </select>
+
+
+    <select id="selectRepairClass" resultType="ProdType">
+        SELECT DISTINCT repairmeasures.repair_class FROM repairmeasures
+    </select>
+
+
+    <select id="SelectLikeRepair" resultType="ProdType">
+        SELECT * FROM prodtype INNER JOIN repairmeasures
+        ON prodtype.prodtype_id = repairmeasures.prodtype_id
+        <where>
+            <if test="repairDoing!='' and repairDoing!=null">
+                repair_doing like '%${repairDoing}%'
+            </if>
+            <if test="repairClass!='' and repairClass!=null">
+                and repair_class like '%${repairClass}%'
+            </if>
+
+            <if test="prodtypeName!='' and prodtypeName!=null">
+                and prodtype_name like '%${prodtypeName}%'
+            </if>
+            <if test="repairState!='' and repairState!=null">
+                and repair_state like '%${repairState}%'
+            </if>
+        </where>
+    </select>
+
+
+    <select id="SelectrepairPro" resultType="ProdType">
+        select * from prodtype;
+    </select>
+
+
+    <insert id="repairAdd">
+        insert into repairmeasures (repair_id,repair_doing,repair_kind,repair_state,prodtype_id) values
+        (0,#{repairDoing},#{repairKind},#{repairState},#{prodtypeName});
+    </insert>
+
+
+    <select id="prodAllRepair" resultType="ProdType">
+        select * from ProdType inner join repairmeasures on ProdType.prodtype_id=repairmeasures.prodtype_id;
+    </select>
+
+
+    <select id="selectSecondrepair" resultType="ProdType">
+        select * from prodtype;
+    </select>
+
+
+    <update id="UpdateRepairSet">
+        update repairmeasures set repair_doing =
+        #{repairDoing},repair_kind=#{repairKind},repair_state=#{repairState},prodtype_id=#{prodtypeId}
+        where repair_id=#{repairId}
+    </update>
+
+
+    <select id="queryPort" resultType="brand">
+        select * from brand inner join port on brand.brand_id = port.brand_id;
+    </select>
+
+
+    <select id="selectLike" resultType="brand">
+        select * from brand inner join port on brand.brand_id = port.brand_id
+        <where>
+            <if test="portName!=null and portName!=''">
+                port_name like '%${portName}%'
+            </if>
+            <if test="portState!=null and portState!=''">
+                and port_state like '%${portState}%'
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectBrandName" resultType="brand">
+        select * from brand group by brand_name;
+    </select>
+
+
+    <insert id="portAdd">
+        insert into port (port_id,port_name,port_state,brand_id) values (0,#{portName},#{portState},#{brandId});
+    </insert>
+
+
+    <update id="portSet">
+        update port set port_state = #{portState} where port_id = #{portId}
+    </update>
+
+
+    <!--规格管理-->
+    <select id="selectGuiZe" resultType="productinfo">
+        SELECT productinfo.*,prodtype.*,
+        (SELECT prodtype.prodtype_name FROM prodtype WHERE prodtype.prodtype_id=productinfo.productinfo_type)
+        productinfoType,
+        (SELECT prodtype.prodtype_name FROM prodtype WHERE prodtype.prodtype_id=productinfo.productinfo_second)
+        productinfoSecond,
+        (SELECT prodtype.prodtype_name FROM prodtype WHERE prodtype.prodtype_id=productinfo.productinfo_group)
+        productinfoGroup
+        FROM productinfo,prodtype GROUP BY productinfo.productinfo_id
+    </select>
+
+
+    <!--查询下拉框回显-->
+    <select id="selectProtype" resultMap="firstPro">
+        select * from ProdType where prodtype_pid = 0
+    </select>
+    <resultMap id="firstPro" type="prodtype">
+        <id column="prodtype_id" property="prodtypeId"/>     <!--property表示映射实体类的名字-->
+        <result column="prodtype_name" property="prodtypeName"/>
+
+        <collection property="childList" column="prodtype_id" select="com.bgs.ssm.mapper.UserMapper.selectSecondPro">
+            <id column="prodtype_id" property="prodtypeId"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectSecondPro" resultMap="secondPro">
+        select * from ProdType where prodtype_pid = #{prodtypeId}
+    </select>
+
+    <resultMap id="secondPro" type="prodtype">
+        <result column="prodtype_id" property="prodtypeId"></result>
+
+        <collection property="childList" column="prodtype_id" select="com.bgs.ssm.mapper.UserMapper.selectThirdPro">
+            <id column="prodtype_id" property="prodtypeId"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectThirdPro" resultType="prodtype">
+        select * from ProdType where prodtype_pid = #{prodtypeId}
+    </select>
+
+
+    <!--修改规格管理状态（使用中/停用中）-->
+    <update id="setProductinfoState">
+        update productinfo set productinfo_state = #{productinfoState}
+        where productinfo_id=#{productinfoId};
+    </update>
+
+
+    <!--模糊查询-->
+    <select id="ProtypeLike" resultType="productinfo">
+        SELECT productinfo.*,prodtype.*,
+        (SELECT prodtype.prodtype_name FROM prodtype WHERE prodtype.prodtype_id=productinfo.productinfo_type)
+        productinfoType,
+        (SELECT prodtype.prodtype_name FROM prodtype WHERE prodtype.prodtype_id=productinfo.productinfo_second)
+        productinfoSecond,
+        (SELECT prodtype.prodtype_name FROM prodtype WHERE prodtype.prodtype_id=productinfo.productinfo_group)
+        productinfoGroup
+        FROM productinfo,prodtype
+        <where>
+            <if test="productinfoGroup!=null and productinfoGroup!=''">
+                productinfo_group = #{productinfoGroup}
+            </if>
+            <if test="productinfoState!=null and productinfoState!=''">
+                and productinfo_state like '%${productinfoState}%'
+            </if>
+        </where>
+        GROUP BY productinfo.productinfo_id
+    </select>
+
+
+    <select id="selectFirstPro" resultType="prodtype">
+        select * from prodtype
+        where prodtype_pid = 0;
+    </select>
+
+
+    <insert id="AddSecondPro">
+        <selectKey keyProperty="prodtypeId" resultType="java.lang.Integer" order="AFTER">  /*先插入，后查询*/
+            select last_insert_ID();
+        </selectKey>
+        insert into prodtype (prodtype_id,prodtype_pid,prodtype_name) values (0,#{prodtypePid},#{secondName})
+    </insert>
+
+    <insert id="AddSecondThird">
+        <selectKey keyProperty="prodtypeIdTwo" resultType="java.lang.Integer" order="AFTER">/*先插入，后查询*/
+            select last_insert_ID() AS prodtypeIdTwo;
+        </selectKey>
+        insert into prodtype (prodtype_id,prodtype_pid,prodtype_name) values (0,#{prodtypePid},#{thirdName})
+    </insert>
+
+
+    <insert id="AddProInfo">
+        insert into productinfo
+        (productinfo_id,productinfo_type,productinfo_second,productinfo_group,productinfo_state,role_id)
+        values (0,#{prodtypePid},#{prodtypeId},#{prodtypeIdThird},#{productinfoState},#{roleId});
+    </insert>
+
+    <insert id="AddProFatherNode">
+        insert into prodtype (prodtype_id,prodtype_pid,prodtype_name)
+        values (0,0,#{FatherProName});
+    </insert>
+
+
+    <select id="selectProFirstId" resultType="prodtype">
+        select * from prodtype
+        where prodtype_name=#{productinfoSecond};
+    </select>
+
+
+    <select id="selectProSecondId" resultType="prodtype">
+        select * from prodtype
+        where prodtype_name=#{productinfoGroup};
+    </select>
+
+    <update id="SetFirstPro">
+        update prodtype
+        set prodtype_name=#{setSecondPro}
+        where prodtype_id=#{prodFirstId};
+    </update>
+
+    <update id="SetSecondPro">
+        update prodtype set prodtype_name=#{setThirdPro}
+        where prodtype_id=#{secondId};
+    </update>
+
+    <update id="SetProInfo">
+        update productinfo
+        set productinfo_state = #{productinfoState}
+        where productinfo_id = #{productinfoId};
+    </update>
+
+
+    <!--型号归类-->
+    <select id="selectProSize" resultType="brand">
+        SELECT brand.*,productinfo.*,prodtype.*,protypesize.*,
+        (SELECT prodtype.prodtype_name FROM prodtype WHERE prodtype.prodtype_id=productinfo.productinfo_type)
+        productinfoType,
+        (SELECT prodtype.prodtype_name FROM prodtype WHERE prodtype.prodtype_id=productinfo.productinfo_second)
+        productinfoSecond,
+        (SELECT prodtype.prodtype_name FROM prodtype WHERE prodtype.prodtype_id=productinfo.productinfo_group)
+        productinfoGroup
+        FROM prodtype,protypesize INNER JOIN brand INNER JOIN productinfo ON
+        protypesize.brand_id = brand.brand_id AND
+        protypesize.prodinfo_id = productinfo.productinfo_id
+        GROUP BY protypesize.protypesize_id
+    </select>
+
+    <select id="selectProBrand" resultType="brand">
+        select * from brand;
+    </select>
+
+
+    <select id="selectSizeLike" resultType="brand">
+        SELECT brand.*,productinfo.*,prodtype.*,protypesize.*,
+        (SELECT prodtype.prodtype_name FROM prodtype WHERE prodtype.prodtype_id=productinfo.productinfo_type)
+        productinfoType,
+        (SELECT prodtype.prodtype_name FROM prodtype WHERE prodtype.prodtype_id=productinfo.productinfo_second)
+        productinfoSecond,
+        (SELECT prodtype.prodtype_name FROM prodtype WHERE prodtype.prodtype_id=productinfo.productinfo_group)
+        productinfoGroup
+        FROM prodtype,protypesize INNER JOIN brand INNER JOIN productinfo ON
+        protypesize.brand_id = brand.brand_id AND
+        protypesize.prodinfo_id = productinfo.productinfo_id
+
+        <where>
+            <if test="brandName!=null and brandName!=''">/*品牌*/
+                protypesize.brand_id = #{brandName}
+            </if>
+            <if test="protypesizeName!=null and protypesizeName!=''">/*产品型号*/
+                and protypesize_name like '%${protypesizeName}%'
+            </if>
+            <if test="productinfoGroup!=null and productinfoGroup!=''">/*产品层次*/
+                and productinfo_group = #{productinfoGroup}
+            </if>
+
+            <if test="productinfoState!=null and productinfoState!=''">/*状态*/
+                and productinfo_state like '%${productinfoState}%'
+            </if>
+        </where>
+        GROUP BY protypesize.protypesize_id
+    </select>
+
+
+    <select id="selectSizeId" resultType="Productinfo">
+        select * from Productinfo
+        where productinfo_group = #{prodinfoId};
+    </select>
+
+
+    <insert id="AddSizeInfo">
+        insert into protypesize (protypesize_id,protypesize_name,brand_id,prodinfo_id)
+        values (0,#{protypesizeName},#{brandId},#{productinfoId});
+    </insert>
+
+
+    <select id="selectThirdId" resultType="Productinfo">
+        select productinfo_type productinfoTyper, productinfo_second productinfoSeconder,productinfo_group
+        productinfoGrouper
+        from Productinfo
+        where productinfo_id = #{prodinfoId};
+    </select>
+
+
+    <update id="updateproSizeTab">
+        update protypesize
+        set protypesize_name = #{protypesizeName},prodinfo_id = #{productinfoId}
+        where protypesize_id = #{protypesizeId};
+    </update>
+
+
+    <update id="updateproInfoState">
+        update productinfo
+        set productinfo_state = #{productinfoState}
+        where productinfo_id = #{productinfoId};
+    </update>
+
+
+    <!--公告管理-->
+    <select id="selectNotice" resultType="notice">
+        SELECT * FROM notice
+        INNER JOIN department
+        INNER JOIN user ON
+        notice.user_id = user.user_id AND
+        department.department_id =user.depart_id
+    </select>
+
+
+    <select id="selectDepartment" resultType="department">
+        select * from department
+    </select>
+
+
+    <select id="selectNoticeUser" resultType="user">
+        SELECT * FROM user
+        INNER JOIN department ON
+        user.depart_id=department.department_id
+        where user.depart_id = #{departmentId}
+    </select>
+
+
+    <select id="selectNoticeLike" resultType="notice">
+        SELECT * FROM notice
+        INNER JOIN department
+        INNER JOIN user ON
+        notice.user_id = user.user_id AND
+        department.department_id =user.depart_id
+        <where>
+            <if test="noticeKeyword!=null and noticeKeyword !=''">
+                notice_keyword like '%${noticeKeyword}%'
+            </if>
+            <if test="noticeReleasetime!=null and noticeReleasetime !=''">
+                <![CDATA[
+                    and DATE_FORMAT(notice_releasetime,'%Y-%m-%d') >= DATE_FORMAT(#{noticeReleasetime},'%Y-%m-%d')
+                ]]>
+            </if>
+            <if test="noticeEndTime!=null and noticeEndTime !=''">
+                <![CDATA[
+                    and DATE_FORMAT(notice_releasetime,'%Y-%m-%d') <= DATE_FORMAT(#{noticeEndTime},'%Y-%m-%d')
+                ]]>
+            </if>
+            <if test="departmentName!=null and departmentName !=''">
+                and department_name like '%${departmentName}%'
+            </if>
+            <if test="userName!=null and userName !=''">
+                and user_name like '%${userName}%'
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectRoleKind" resultType="role">
+        SELECT * FROM role GROUP BY role_name
+    </select>
+
+    <select id="selectAllRole" resultType="role">
+        SELECT user.*, role.*,urelation.*
+        FROM role INNER JOIN urelation INNER JOIN user
+        ON role.role_id=urelation.rid
+        AND user.user_id = urelation.uid
+    </select>
+
+    <select id="selectRoleLike" resultType="role">
+        select * from role
+        <where>
+            <if test="roleName!=null and roleName!=''">
+                role_name like '%${roleName}%'
+            </if>
+            <if test="roleKind!=null and roleKind!=''">
+                and role_kind like '%${roleKind}%'
+            </if>
+        </where>
+    </select>
+
+
+    <insert id="AddRole">
+        insert into role (role_id,role_kind,role_name) values (0,#{roleKind},#{roleName});
+    </insert>
+
+
+    <select id="selectManAll" resultType="Manufacture">
+        SELECT * FROM manufacture m
+        INNER JOIN province p
+        INNER JOIN department dept
+        INNER JOIN depmanrelation d
+        ON m.manufacturer_id = d.mant_id
+        AND p.province_id = d.pro_id
+        AND dept.department_id = d.dept_id
+    </select>
+    
+    <select id="selectProvince" resultType="province">
+        select * from province GROUP BY province_pro
+    </select>
+    
+    <select id="selectCity" resultType="province">
+        select * from province where province_pro=#{provincePro} group by province_city
+    </select>
+
+    <select id="selectArea" resultType="province">
+         select * from province where province_city=#{provinceCity} group by province_area
+    </select>
 
 
 

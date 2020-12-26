@@ -1,15 +1,76 @@
 package com.bgs.ssm.pojo;
 
-public class User {
-    private Integer  userId;
-    private String  userName;
-    private String  userPassword;
-    private String  userUsername;
-    private String  userEmail;
-    private String  userPhone;
-    private String  userState;
-    private int roleId;     //角色ID
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
+
+public class User {
+    private Integer userId;
+    private String userName;
+    private String userPassword;
+    private String userEmail;
+    private String userPhone;
+    private String userState;
+
+
+    /*角色表*/
+    private int roleId;
+    private String roleName;    //角色名
+    private String roleKind;
+
+    /*关系表*/
+    private int urelationId;
+    private int uid;
+    private int rid;
+
+    public int getUrelationId() {
+        return urelationId;
+    }
+
+    public void setUrelationId(int urelationId) {
+        this.urelationId = urelationId;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public int getRid() {
+        return rid;
+    }
+
+    public void setRid(int rid) {
+        this.rid = rid;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getRoleKind() {
+        return roleKind;
+    }
+
+    public void setRoleKind(String roleKind) {
+        this.roleKind = roleKind;
+    }
 
     public Integer getUserId() {
         return userId;
@@ -33,14 +94,6 @@ public class User {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
-    }
-
-    public String getUserUsername() {
-        return userUsername;
-    }
-
-    public void setUserUsername(String userUsername) {
-        this.userUsername = userUsername;
     }
 
     public String getUserEmail() {
@@ -67,13 +120,6 @@ public class User {
         this.userState = userState;
     }
 
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
-    }
 
     @Override
     public String toString() {
@@ -81,11 +127,9 @@ public class User {
                 "userId=" + userId +
                 ", userName='" + userName + '\'' +
                 ", userPassword='" + userPassword + '\'' +
-                ", userUsername='" + userUsername + '\'' +
                 ", userEmail='" + userEmail + '\'' +
                 ", userPhone='" + userPhone + '\'' +
                 ", userState='" + userState + '\'' +
-                ", roleId=" + roleId +
                 '}';
     }
 }

@@ -9,44 +9,49 @@
 </head>
 <body>
 
-    <div id="app">
-        <div style="width: 300px;height: 100%;margin-top: 50px;margin-left: 50px;">
-            <el-tree :data="treeArray" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
-        </div>
+<div id="app">
+    <div style="width: 300px;height: 100%;margin-top: 50px;margin-left: 50px;">
+        <el-tree :data="treeArray"
+                 :props="defaultProps"
+                 default-expand-all
+                 @node-click="handleNodeClick"
+        <%--style="background-color: #EFDBDC"--%>
+        ></el-tree>
     </div>
+</div>
 
 </body>
 
-    <script>
-        new Vue({
-            el:"#app",
-            data:{
-                defaultProps: {
-                    children: 'childList',
-                    label: 'departmentName'
-                },
-                treeArray:[],
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            defaultProps: {
+                children: 'childList',
+                label: 'departmentName'
+            },
+            treeArray: [],
 
-            },
-            methods:{
-                handleNodeClick(data) {
-                    console.log(data);
-                }
-            },
-            mounted:function () {
-                var roleId=${user.roleId};
-                var _this = this;
-                axios.post('${pageContext.request.contextPath}/pro/DepartmentNode',{
-                    roleId:roleId,
-                })
+        },
+        methods: {
+            handleNodeClick(data) {
+                console.log(data);
+            }
+        },
+        mounted: function () {
+            var roleId =${user.userId};
+            var _this = this;
+            axios.post('${pageContext.request.contextPath}/pro/DepartmentNode', {
+                roleId: roleId,
+            })
                 .then(function (res) {
                     _this.treeArray = res.data;
                 })
                 .catch(function (error) {
                     console.log(error)
                 })
-            }
-        })
-    </script>
+        }
+    })
+</script>
 
 </html>

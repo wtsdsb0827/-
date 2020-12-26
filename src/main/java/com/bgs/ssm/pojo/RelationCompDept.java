@@ -1,22 +1,24 @@
 package com.bgs.ssm.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-@JsonIgnoreProperties(value = { "handler"})
+
+/*@JsonIgnoreProperties(value = { "handler"})*/
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class RelationCompDept implements Serializable {
 
-    private Integer  reId;          //关系表主键
-    private Integer  departmentId;  //部门主键
-    private Integer  reDeptid;      //部门外键
-    private Integer  reRoleid;      //角色外键
+    private Integer reId;          //关系表主键
+    private Integer departmentId;  //部门主键
+    private Integer reDeptid;      //部门外键
+    private Integer reRoleid;      //角色外键
 
-    private String  departmentName;     //部门名称
-    private Integer  departmentPid;    //PID
+    private String departmentName;     //部门名称
+    private Integer departmentPid;    //PID
 
     private List<RelationCompDept> childList = new ArrayList<>();
-
 
 
     public Integer getReId() {

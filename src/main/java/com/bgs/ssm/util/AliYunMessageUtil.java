@@ -44,9 +44,9 @@ public class AliYunMessageUtil {
         // hint 此处可能会抛出异常，注意catch
         SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
         /*System.out.println("你到底是什么？？？----"+sendSmsResponse.getCode());*/
-        if(sendSmsResponse.getCode()!= null && sendSmsResponse.getCode().equals("OK")){
+        if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
             System.out.println("短信发送成功！");
-        }else {
+        } else {
             System.out.println("短信发送失败！");
         }
         return sendSmsResponse;
@@ -65,8 +65,6 @@ public class AliYunMessageUtil {
         String code = Integer.toString(getNewcode());
         sendSms("18301398746",code);//填写你需要测试的手机号码
     }*/
-
-
 
 
 }

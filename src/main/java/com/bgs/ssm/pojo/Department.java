@@ -3,20 +3,22 @@ package com.bgs.ssm.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-@JsonIgnoreProperties(value = { "handler"})
-public class Department  implements Serializable {
 
-    private Integer  departmentId;
-    private String  departmentName;
-    private String  departmentPhone;
-    private Integer  departmentPid;
-    private Integer  departmentCity;
-    private Integer  departmentArea;
-    private String  departmentAddress;
-    private String  departmentSevicelist;
-    private String  departmentHeaddepartment;
-    private String  departmentState;
-    private String  departmentBusinesscenter;
+/*@JsonIgnoreProperties(value = { "handler"})*/
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
+public class Department implements Serializable {
+
+    private Integer departmentId;
+    private String departmentName;
+    private String departmentPhone;
+    private Integer departmentPid;
+    private Integer departmentCity;
+    private Integer departmentArea;
+    private String departmentAddress;
+    private String departmentSevicelist;
+    private String departmentHeaddepartment;
+    private String departmentState;
+    private String departmentBusinesscenter;
 
     public Integer getDepartmentId() {
         return departmentId;
