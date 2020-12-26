@@ -52,19 +52,5 @@ public class AliYunMessageUtil {
         return sendSmsResponse;
     }
 
-  /*  //以下为测试代码，随机生成验证码
-    private static int newcode;
-    public static int getNewcode() {
-        return newcode;
-    }
-    public static void setNewcode(){
-        newcode = (int)(Math.random()*9999)+100;  //每次调用生成一次四位数的随机数
-    }
-    public static void main(String[] args) throws Exception {
-        setNewcode();
-        String code = Integer.toString(getNewcode());
-        sendSms("18301398746",code);//填写你需要测试的手机号码
-    }*/
-
 
 }
